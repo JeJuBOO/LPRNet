@@ -1,0 +1,19 @@
+services:
+  pg_container:
+    container_name: playground
+    build: .
+    privileged: true
+    network_mode: host
+    volumes:
+      - ./:/app
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+    command: "tail -f /dev/null"
+    environment:
+      - DISPLAY=:10.0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
